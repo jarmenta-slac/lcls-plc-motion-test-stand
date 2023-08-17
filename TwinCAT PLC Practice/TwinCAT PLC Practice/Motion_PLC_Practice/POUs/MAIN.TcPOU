@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="MAIN" Id="{622f6e59-0aa4-465f-9317-a2a4d783d5c1}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM MAIN
+VAR
+	// Define EPICS interface for moving motor (struct)
+	{attribute 'TcLinkTo' := '.nRawEncoderULINT     := TIID^Device 1 (EtherCAT)^Term 1 (EK1200)^Term 4 (EL5042)^FB Inputs Channel 1^Position'}
+	M1: ST_MotionStage := (sName := 'MOTION:PRACTICE',
+                        bPowerSelf := True); // opt out of PMPS and handle
+											// motor enabling within FB_MotionStage
+	
+	// Attribute Linking (for hardware)
+	// Inputs (Limit Switch)
+	{attribute 'TcLinkTo' := 'TIID^Device 1 (EtherCAT)^Term 1 (EK1200)^Term 3 (EL1084)^Channel 1^Input'}
+	backwardLimitSwitch AT %I* : BOOL;
+	
+	{attribute 'TcLinkTo' := 'TIID^Device 1 (EtherCAT)^Term 1 (EK1200)^Term 3 (EL1084)^Channel 2^Input'}
+	forwardLimitSwitch AT %I* : BOOL;
+	
+	// Function Block Logic 
+	fbMotion1: FB_MotionStage;
+
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// Limit switch is NPN, while motion library uses PNP
+M1.bLimitForwardEnable := NOT forwardLimitSwitch;
+M1.bLimitBackwardEnable := NOT backwardLimitSwitch;
+
+M1.bHardwareEnable := TRUE; // ok to move
+
+// Invoke function block call
+fbMotion1(stMotionStage := M1);]]></ST>
+    </Implementation>
+    <LineIds Name="MAIN">
+      <LineId Id="38" Count="0" />
+      <LineId Id="40" Count="1" />
+      <LineId Id="43" Count="0" />
+      <LineId Id="42" Count="0" />
+      <LineId Id="46" Count="0" />
+      <LineId Id="45" Count="0" />
+      <LineId Id="44" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

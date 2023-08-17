@@ -1,0 +1,2 @@
+epicsEnvSet("IOC_TOP", "/c/Users/armenta1/Desktop/PLC/lcls-plc-motion-test-stand/TwinCAT PLC Practice/iocBoot/ioc-Motion-PLC-Practice")
+epicsEnvSet("IOC_DATA", "/cds/data/iocData")
