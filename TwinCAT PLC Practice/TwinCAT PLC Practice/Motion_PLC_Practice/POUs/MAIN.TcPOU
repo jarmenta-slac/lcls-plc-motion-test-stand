@@ -3,6 +3,8 @@
   <POU Name="MAIN" Id="{622f6e59-0aa4-465f-9317-a2a4d783d5c1}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM MAIN
 VAR
+	// Set up PV 
+	{attribute 'pytmc' := 'pv: TST:MOTION'}
 	// Define EPICS interface for moving motor (struct)
 	{attribute 'TcLinkTo' := '.nRawEncoderULINT     := TIID^Device 1 (EtherCAT)^Term 1 (EK1200)^Term 4 (EL5042)^FB Inputs Channel 1^Position'}
 	M1: ST_MotionStage := (sName := 'MOTION:PRACTICE',
