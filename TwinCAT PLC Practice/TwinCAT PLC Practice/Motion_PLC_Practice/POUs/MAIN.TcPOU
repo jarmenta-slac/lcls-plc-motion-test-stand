@@ -32,7 +32,7 @@ M1.bLimitBackwardEnable := NOT backwardLimitSwitch;
 M1.bHardwareEnable := TRUE; // ok to move
 
 // Invoke function block call
-fbMotion1(stMotionStage := Main.M1);]]></ST>
+fbMotion1(stMotionStage := MAIN.M1);]]></ST>
     </Implementation>
     <LineIds Name="MAIN">
       <LineId Id="38" Count="0" />
